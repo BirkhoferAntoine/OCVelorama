@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta name="author" content="Antoine Birkhofer" />
+    <meta name="description" content="Velorama location de vélos" />
+
+    <script defer src="https://kit.fontawesome.com/e1049b5881.js"></script>
+
+    <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+
+    <link rel="stylesheet" href="CSS/Velorama_style.css" />
+
+    <script defer src="JavaScript/Diaporama.js"></script>
+    <script defer src="JavaScript/Map.js"></script>
+    <script defer src="JavaScript/Canvas.js"></script>
+    <script defer src="JavaScript/Timer.js"></script>
+
+    <title>Velorama</title>
+</head>
+
+<body data-spy="scroll" data-target="#mainNav">
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" id="mainNav" style="background-color: #261C26;">
+
+        <a class="navbar-brand" href="#accueil">
+            <img src="Icons/bicycle-15.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+            Velorama
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#accueil"><span class="fas fa-landmark"></span> Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#slideHR"><span class="far fa-image"></span> Présentation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#mapHR"><span class="far fa-map"></span> Carte</a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <main>
+
+    <header id="accueil">
+
+        <div class="jumbotron">
+            <h1>Bienvenue sur Velorama Toulouse!</h1>
+            <p class="lead">Réservez votre vélo et partez en toute tranquillité!</p><br/>
+            <a class="btn btn-primary btn-lg" href="#map" role="button"><span class="far fa-map"></span><br/>Carte</a>
+            <hr class="my-4">
+            <p>Vous trouvez dans le diaporama çi-dessous toutes les informations nécéssaires à votre réservation.</p>
+        </div>
+
+        <img id="homeImg" src="Images/garonne.jpg">
+
+    </header>
+
+    <hr id="slideHR">
+
+    <section id ="Diaporama">
+
+        <figure id="slide">
+
+            <img id="slideshow"><figcaption id="figContent"></figcaption>
+
+            <div id ="sliderButtons">
+                <button id="restart" disabled><span class="fas fa-play"></span></button>
+                <button id="stop"><span class="fas fa-stop"></span></button>
+            </div>
+
+            <div id="sliderArrows">
+                <div id="prev">
+                    <div id=arrow_left></div>
+                </div>
+                <div id="next">
+                    <div id=arrow_right></div>
+                </div>
+
+            </div>
+
+        </figure>
+
+    </section>
+
+    <hr id="mapHR">
+
+    <section id="apiContent">
+
+        <div id="map"></div>
+        <aside id="infoTab">
+
+            <h2 id="stationName">Station</h2>
+            <h3 id="stationStatus">Status</h3>
+            <ul id="stationInfoList">
+                <li id="stationAddress">Adresse</li>
+                <li id="stationBanking">Terminal</li>
+                <li id="stationAvailableStands">Stands libres</li>
+                <li id="stationAvailableBikes">Vélos disponibles</li>
+            </ul>
+
+            <div id="bookDiv">
+
+                <form action="">
+
+                    <div id="tabInput">
+                        <span>Nom:<br>
+                            <input type="text" name="lastname" id="lname" value="" class="fillRequired" required><br/>
+                        </span>
+                        <span>Prénom:<br>
+                            <input type="text" name="firstname" id="fname" value="" class="fillRequired" required><br/>
+                        </span>
+                    </div>
+                    <br/>
+
+                    <button id="bookButton" disabled>Réserver</button>
+
+                    <div id="bookForm"><br/>
+                        <canvas id="myCanvas"></canvas><br/>
+                        <input type="button" value="Effacer" id="deleteButton" onclick="event.preventDefault()">
+                        <input type="submit" id="sendButton" disabled onclick="event.preventDefault()">
+                    </div>
+                    <br/>
+
+                    <span id="clientHelp">Veuillez sélectionner une station</span>
+
+                </form>
+
+            </div>
+
+        </aside>
+    </section>
+
+        <section id="ticketContent">
+
+            <div id="ticketInfo">
+
+                <h3 id="reservation"><span class="fas fa-ticket-alt"></span> Votre réservation</h3>
+
+                <div id="ticketData">
+                    <div id="ticket">
+                        <span id="clientID">Client</span>
+                        <span id="clientST">Station</span>
+                        <img id="canvasGet">
+                    </div>
+
+                    <span id="decompte">Temps restant:
+                     <span id="minutes"></span> min :
+                     <span id="seconds"></span> sec.
+                 </span>
+                </div>
+
+                <input type="button" value="Annuler" id="cancelButton" onclick="event.preventDefault()">
+
+            </div>
+
+        </section>
+
+    <footer>
+
+
+
+
+    </footer>
+
+    </main>
+
+</body>
+
+</html>
